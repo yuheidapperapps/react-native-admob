@@ -21,6 +21,8 @@
 
 RCT_EXPORT_MODULE();
 
+#if __has_include(<GoogleMobileAds/GADMobileAds.h>)
+
 - (NSArray<NSString *> *)supportedEvents
 {
     return @[
@@ -140,5 +142,7 @@ RCT_EXPORT_METHOD(isReady:(RCTResponseSenderBlock)callback)
     }
     _requestAdCallback(@[RCTJSErrorFromNSError(error)]);
 }
+
+#endif
 
 @end

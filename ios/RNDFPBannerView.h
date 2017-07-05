@@ -4,9 +4,13 @@
 #import "RCTView.h"
 #endif
 
-@import GoogleMobileAds;
-
 @class RCTEventDispatcher;
+
+#if __has_include(<GoogleMobileAds/GADMobileAds.h>)
+
+#import <GoogleMobileAds/GADBannerViewDelegate.h>
+#import <GoogleMobileAds/GADAdSizeDelegate.h>
+#import <GoogleMobileAds/GADAppEventDelegate.h>
 
 @interface RNDFPBannerView : RCTView <GADBannerViewDelegate, GADAdSizeDelegate, GADAppEventDelegate>
 
@@ -25,3 +29,11 @@
 - (void)loadBanner;
 
 @end
+
+#else
+
+@interface RNDFPBannerView : RCTView {
+}
+@end
+
+#endif

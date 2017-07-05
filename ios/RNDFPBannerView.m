@@ -10,6 +10,8 @@
 
 #include "RCTConvert+GADAdSize.h"
 
+#if __has_include(<GoogleMobileAds/GADMobileAds.h>)
+
 @implementation RNDFPBannerView
 {
     DFPBannerView  *_bannerView;
@@ -134,3 +136,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 }
 
 @end
+
+#else
+
+@implementation RNDFPBannerView {
+}
+@end
+
+#endif

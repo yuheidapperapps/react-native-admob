@@ -15,6 +15,8 @@
 
 RCT_EXPORT_MODULE();
 
+#if __has_include(<GoogleMobileAds/GADMobileAds.h>)
+
 - (UIView *)view
 {
   return [RNDFPBannerView new];
@@ -57,5 +59,7 @@ RCT_EXPORT_VIEW_PROPERTY(onAdViewWillLeaveApplication, RCTBubblingEventBlock)
         @"simulatorId": kGADSimulatorID
     };
 }
+
+#endif
 
 @end

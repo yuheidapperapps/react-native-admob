@@ -2,6 +2,8 @@
 
 @implementation RCTConvert (GADAdSize)
 
+#if __has_include(<GoogleMobileAds/GADMobileAds.h>)
+
 + (GADAdSize)GADAdSize:(id)json
 {
     NSString *adSize = [self NSString:json];
@@ -29,4 +31,7 @@
     }
 }
 
+#endif
+
 @end
+

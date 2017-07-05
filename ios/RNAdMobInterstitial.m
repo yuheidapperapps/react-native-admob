@@ -6,6 +6,8 @@
 #import "RCTUtils.h"
 #endif
 
+#if __has_include(<GoogleMobileAds/GADMobileAds.h>)
+
 @implementation RNAdMobInterstitial {
   GADInterstitial  *_interstitial;
   NSString *_adUnitID;
@@ -138,3 +140,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 }
 
 @end
+
+#else
+
+@implementation RNAdMobInterstitial {
+}
+@end
+
+#endif

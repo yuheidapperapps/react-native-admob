@@ -8,6 +8,8 @@
 #import "UIView+React.h"
 #endif
 
+#if __has_include(<GoogleMobileAds/GADMobileAds.h>)
+
 @implementation RNGADBannerView
 {
     GADBannerView *_bannerView;
@@ -113,3 +115,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 }
 
 @end
+
+#else
+
+@implementation RNGADBannerView {
+}
+@end
+
+#endif
