@@ -15,7 +15,7 @@
 
 RCT_EXPORT_MODULE();
 
-#if __has_include(<GoogleMobileAds/GADMobileAds.h>)
+#if __has_include(<GoogleMobileAds/GoogleMobileAds.h>)
 
 - (UIView *)view
 {

@@ -6,7 +6,7 @@
 
 @class RCTEventDispatcher;
 
-#if __has_include(<GoogleMobileAds/GADMobileAds.h>)
+#if __has_include(<GoogleMobileAds/GoogleMobileAds.h>)
 
 #import <GoogleMobileAds/GADBannerViewDelegate.h>
 #import <GoogleMobileAds/GADAdSizeDelegate.h>

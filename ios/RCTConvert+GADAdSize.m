@@ -2,7 +2,7 @@
 
 @implementation RCTConvert (GADAdSize)
 
-#if __has_include(<GoogleMobileAds/GADMobileAds.h>)
+#if __has_include(<GoogleMobileAds/GoogleMobileAds.h>)
 
 + (GADAdSize)GADAdSize:(id)json
 {

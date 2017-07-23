@@ -6,7 +6,7 @@
 #import "RCTUtils.h"
 #endif
 
-#if __has_include(<GoogleMobileAds/GADMobileAds.h>)
+#if __has_include(<GoogleMobileAds/GoogleMobileAds.h>)
 
 @implementation RNAdMobRewarded {
     NSString *_adUnitID;
