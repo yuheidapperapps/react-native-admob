@@ -15,7 +15,7 @@
 
 #else
 
-@interface RNAdMobInterstitial : RCTEventEmitter <RCTBridgeModule> {
+@interface RNAdMobInterstitial : NSObject {
 }
 @end
 

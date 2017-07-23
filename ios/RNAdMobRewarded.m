@@ -6,6 +6,8 @@
 #import "RCTUtils.h"
 #endif
 
+#if __has_include(<GoogleMobileAds/GADMobileAds.h>)
+
 @implementation RNAdMobRewarded {
     NSString *_adUnitID;
     NSArray *_testDevices;
@@ -20,8 +22,6 @@
 }
 
 RCT_EXPORT_MODULE();
-
-#if __has_include(<GoogleMobileAds/GADMobileAds.h>)
 
 - (NSArray<NSString *> *)supportedEvents
 {
@@ -143,6 +143,12 @@ RCT_EXPORT_METHOD(isReady:(RCTResponseSenderBlock)callback)
     _requestAdCallback(@[RCTJSErrorFromNSError(error)]);
 }
 
-#endif
-
 @end
+
+#else
+
+@implementation RNAdMobRewarded {
+}
+@end
+
+#endif

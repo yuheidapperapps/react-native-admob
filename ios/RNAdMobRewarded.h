@@ -15,7 +15,7 @@
 
 #else
 
-@interface RNAdMobRewarded : RCTEventEmitter <RCTBridgeModule> {
+@interface RNAdMobRewarded : NSObject {
 }
 @end
 
