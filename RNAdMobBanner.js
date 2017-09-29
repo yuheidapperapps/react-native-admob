@@ -103,8 +103,6 @@ AdMobBanner.propTypes = {
   onAdOpened: func,
   onAdClosed: func,
   onAdLeftApplication: func,
-  
-  onAdViewWillDismissScreen: func,
 };
 
 const RNGADBannerView = requireNativeComponent('RNGADBannerView', AdMobBanner);

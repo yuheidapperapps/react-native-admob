@@ -16,7 +16,6 @@
 @property (nonatomic, copy) RCTBubblingEventBlock onAdLoaded;
 @property (nonatomic, copy) RCTBubblingEventBlock onAdFailedToLoad;
 @property (nonatomic, copy) RCTBubblingEventBlock onAdOpened;
-// @property (nonatomic, copy) RCTBubblingEventBlock onAdViewWillDismissScreen;
 @property (nonatomic, copy) RCTBubblingEventBlock onAdClosed;
 @property (nonatomic, copy) RCTBubblingEventBlock onAdLeftApplication;
 

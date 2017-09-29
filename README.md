@@ -179,10 +179,6 @@ Accepts a function. Called when an ad opens an overlay that covers the screen.
 
 Accepts a function. Called when the user is about to return to the application after clicking on an ad.
 
-<!-- ##### `onAdViewDidDismissScreen`
-
-Accepts a function. Called when the view has been dismissed. -->
-
 ##### `onAdLeftApplication`
 
 Accepts a function. Called when a user click will open another app (such as the App Store), backgrounding the current app.
@@ -204,7 +200,7 @@ Same as `AdMobBanner`, with the addition of 2 extra properties:
 
 Accepts a function. Called when DFP sends an event back to the app.
 
-These events may occur at any time during the ad's lifecycle, even before `onAdViewDidReceiveAd` is called. The function is called with an object, containing the name of the event and an info property, containing additional information.
+These events may occur at any time during the ad's lifecycle, even before `onAdLoaded` is called. The function is called with an object, containing the name of the event and an info property, containing additional information.
 
 More info here: https://developers.google.com/mobile-ads-sdk/docs/dfp/ios/banner#app_events
 
@@ -270,18 +266,13 @@ Unfortunately, events are not consistent across iOS and Android. To have one uni
       <td><code>onAdOpened</code></td>
     </tr>
     <tr>
-      <td></td>
+      <td><code>adFailedToOpen</code></td>
       <td><code>interstitialDidFailToPresentScreen</code></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><code>interstitialWillDismissScreen</code></td>
-      <td></td>
+      <td><em>Not supported</em></td>
     </tr>
     <tr>
       <td><code>adClosed</code></td>
-      <td><code>interstitialDidDismissScreen</code></td>
+      <td><code>interstitialWillDismissScreen</code></td>
       <td><code>onAdClosed</code></td>
     </tr>
     <tr>
@@ -291,8 +282,6 @@ Unfortunately, events are not consistent across iOS and Android. To have one uni
     </tr>
   </tbody>
 </table>
-
-*Note that `interstitialWillLeaveApplication` and `onAdLeftApplication` are not exactly the same but share one event in this library.*
 
 ### AdMobRewarded
 
@@ -356,6 +345,11 @@ Unfortunately, events are not consistent across iOS and Android. To have one uni
       <td><code>onRewardedVideoAdOpened</code></td>
     </tr>
     <tr>
+      <td><code>videoStarted</code></td>
+      <td><code>rewardBasedVideoAdDidStartPlaying</code></td>
+      <td><code>onRewardedVideoStarted</code></td>
+    </tr>
+    <tr>
       <td><code>adClosed</code></td>
       <td><code>rewardBasedVideoAdDidClose</code></td>
       <td><code>onRewardedVideoAdClosed</code></td>
@@ -367,8 +361,6 @@ Unfortunately, events are not consistent across iOS and Android. To have one uni
     </tr>
   </tbody>
 </table>
-
-*Note that `rewardedVideoWillLeaveApplication` and `onRewardedVideoAdLeftApplication` are not exactly the same but share one event in this library.*
 
 ---
 

@@ -28,6 +28,7 @@ RCT_EXPORT_MODULE();
            @"adLoaded",
            @"adFailedToLoad",
            @"adOpened",
+           @"adFailedToOpen",
            @"adClosed",
            @"adLeftApplication"];
 }
@@ -120,7 +121,13 @@ RCT_EXPORT_METHOD(isReady:(RCTResponseSenderBlock)callback)
   }
 }
 
-- (void)interstitialDidDismissScreen:(__unused GADInterstitial *)ad {
+- (void)interstitialDidFailToPresentScreen:(__unused GADInterstitial *)ad {
+  if (hasListeners){
+    [self sendEventWithName:@"adFailedToOpen" body:nil];
+  }
+}
+
+- (void)interstitialWillDismissScreen:(__unused GADInterstitial *)ad {
   if (hasListeners) {
     [self sendEventWithName:@"adClosed" body:nil];
   }

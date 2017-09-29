@@ -97,19 +97,12 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     }
 }
 
-// /// Tells the delegate that the full screen view will be dismissed.
-// - (void)adViewWillDismissScreen:(DFPBannerView *)adView {
-//     if (self.onAdViewWillDismissScreen) {
-//         self.onAdViewWillDismissScreen(@{});
-//     }
-// }
-
-/// Tells the delegate that the full screen view has been dismissed.
-- (void)adViewDidDismissScreen:(DFPBannerView *)adView {
-    if (self.onAdClosed) {
-        self.onAdClosed(@{});
-    }
-}
+ /// Tells the delegate that the full screen view will be dismissed.
+ - (void)adViewWillDismissScreen:(__unused DFPBannerView *)adView {
+     if (self.onAdClosed) {
+         self.onAdClosed(@{});
+     }
+ }
 
 /// Tells the delegate that a user click will open another app (such as
 /// the App Store), backgrounding the current app.
