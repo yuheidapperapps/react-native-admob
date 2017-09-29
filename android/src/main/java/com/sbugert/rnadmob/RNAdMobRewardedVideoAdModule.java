@@ -45,33 +45,33 @@ public class RNAdMobRewardedVideoAdModule extends ReactContextBaseJavaModule imp
         reward.putInt("amount", rewardItem.getAmount());
         reward.putString("type", rewardItem.getType());
 
-        sendEvent("rewardedVideoDidRewardUser", reward);
+        sendEvent("rewarded", reward);
     }
 
     @Override
     public void onRewardedVideoAdLoaded() {
-        sendEvent("rewardedVideoDidLoad", null);
+        sendEvent("adLoaded", null);
         mRequestAdPromise.resolve(null);
     }
 
     @Override
     public void onRewardedVideoAdOpened() {
-        sendEvent("rewardedVideoDidOpen", null);
+        sendEvent("adOpened", null);
     }
 
     @Override
     public void onRewardedVideoStarted() {
-        sendEvent("rewardedVideoDidStart", null);
+        sendEvent("videoStarted", null);
     }
 
     @Override
     public void onRewardedVideoAdClosed() {
-        sendEvent("rewardedVideoDidClose", null);
+        sendEvent("adClosed", null);
     }
 
     @Override
     public void onRewardedVideoAdLeftApplication() {
-        sendEvent("rewardedVideoWillLeaveApplication", null);
+        sendEvent("adLeftApplication", null);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class RNAdMobRewardedVideoAdModule extends ReactContextBaseJavaModule imp
         WritableMap event = Arguments.createMap();
         WritableMap error = Arguments.createMap();
         event.putString("message", errorMessage);
-        sendEvent("rewardedVideoDidFailToLoad", event);
+        sendEvent("adFailedToLoad", event);
         mRequestAdPromise.reject(errorString, errorMessage);
     }
 

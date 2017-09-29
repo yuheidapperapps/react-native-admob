@@ -45,7 +45,7 @@ public class RNAdMobInterstitialAdModule extends ReactContextBaseJavaModule {
         mInterstitialAd.setAdListener(new AdListener() {
           @Override
           public void onAdClosed() {
-            sendEvent("interstitialDidClose", null);
+            sendEvent("adClosed", null);
           }
           @Override
           public void onAdFailedToLoad(int errorCode) {
@@ -72,21 +72,21 @@ public class RNAdMobInterstitialAdModule extends ReactContextBaseJavaModule {
             WritableMap event = Arguments.createMap();
             WritableMap error = Arguments.createMap();
             event.putString("message", errorMessage);
-            sendEvent("interstitialDidFailToLoad", event);
+            sendEvent("adFailedToLoad", event);
             mRequestAdPromise.reject(errorString, errorMessage);
           }
           @Override
           public void onAdLeftApplication() {
-            sendEvent("interstitialWillLeaveApplication", null);
+            sendEvent("adLeftApplication", null);
           }
           @Override
           public void onAdLoaded() {
-            sendEvent("interstitialDidLoad", null);
+            sendEvent("adLoaded", null);
             mRequestAdPromise.resolve(null);
           }
           @Override
           public void onAdOpened() {
-            sendEvent("interstitialDidOpen", null);
+            sendEvent("adOpened", null);
           }
         });
       }

@@ -77,22 +77,22 @@ class ReactAdView extends ReactViewGroup {
         WritableMap error = Arguments.createMap();
         error.putString("message", errorMessage);
         event.putMap("error", error);
-        sendEvent("onDidFailToReceiveAdWithError", event);
+        sendEvent("onAdFailedToLoad", event);
       }
 
       @Override
       public void onAdOpened() {
-        sendEvent("onAdViewWillPresentScreen", null);
+        sendEvent("onAdOpened", null);
       }
 
       @Override
       public void onAdClosed() {
-        sendEvent("onAdViewWillDismissScreen", null);
+        sendEvent("onAdClosed", null);
       }
 
       @Override
       public void onAdLeftApplication() {
-        sendEvent("onAdViewWillLeaveApplication", null);
+        sendEvent("onAdLeftApplication", null);
       }
     });
     this.addView(this.adView);
@@ -166,12 +166,12 @@ public class RNAdMobBannerViewManager extends SimpleViewManager<ReactAdView> {
 
   public enum Events {
     EVENT_SIZE_CHANGE("onSizeChange"),
-    EVENT_RECEIVE_AD("onAdViewDidReceiveAd"),
-    EVENT_ERROR("onDidFailToReceiveAdWithError"),
-    EVENT_WILL_PRESENT("onAdViewWillPresentScreen"),
+    EVENT_RECEIVE_AD("onAdLoaded"),
+    EVENT_ERROR("onAdFailedToLoad"),
+    EVENT_WILL_PRESENT("onAdOpened"),
     EVENT_WILL_DISMISS("onAdViewWillDismissScreen"),
-    EVENT_DID_DISMISS("onAdViewDidDismissScreen"),
-    EVENT_WILL_LEAVE_APP("onAdViewWillLeaveApplication");
+    EVENT_DID_DISMISS("onAdClosed"),
+    EVENT_WILL_LEAVE_APP("onAdLeftApplication");
 
     private final String mName;
 

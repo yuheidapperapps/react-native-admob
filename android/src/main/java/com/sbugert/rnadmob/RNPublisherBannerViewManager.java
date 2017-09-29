@@ -60,7 +60,7 @@ class ReactPublisherAdView extends ReactViewGroup implements AppEventListener {
         adView.measure(width, height);
         adView.layout(left, top, left + width, top + height);
         sendOnSizeChangeEvent();
-        sendEvent("onAdViewDidReceiveAd", null);
+        sendEvent("onAdLoaded", null);
       }
 
       @Override
@@ -89,17 +89,17 @@ class ReactPublisherAdView extends ReactViewGroup implements AppEventListener {
 
       @Override
       public void onAdOpened() {
-        sendEvent("onAdViewWillPresentScreen", null);
+        sendEvent("onAdOpened", null);
       }
 
       @Override
       public void onAdClosed() {
-        sendEvent("onAdViewWillDismissScreen", null);
+        sendEvent("onAdClosed", null);
       }
 
       @Override
       public void onAdLeftApplication() {
-        sendEvent("onAdViewWillLeaveApplication", null);
+        sendEvent("onAdLeftApplication", null);
       }
     });
     this.addView(this.adView);
@@ -186,11 +186,7 @@ class ReactPublisherAdView extends ReactViewGroup implements AppEventListener {
     WritableMap event = Arguments.createMap();
     event.putString("name", name);
     event.putString("info", info);
-    ReactContext reactContext = (ReactContext) getContext();
-    reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
-            getId(),
-            "onDidReceiveAppEvent",
-            event);
+    sendEvent("onAppEvent", event);
     String message = String.format("Received app event (%s, %s)", name, info);
     Log.d("PublisherAdBanner", message);
   }
@@ -227,13 +223,13 @@ public class RNPublisherBannerViewManager extends SimpleViewManager<ReactPublish
     MapBuilder.Builder<String, Object> builder = MapBuilder.builder();
     return builder
       .put("onSizeChange", MapBuilder.of("registrationName", "onSizeChange"))
-      .put("onAdViewDidReceiveAd", MapBuilder.of("registrationName", "onAdViewDidReceiveAd"))
-      .put("onDidFailToReceiveAdWithError", MapBuilder.of("registrationName", "onDidFailToReceiveAdWithError"))
-      .put("onAdViewWillPresentScreen", MapBuilder.of("registrationName", "onAdViewWillPresentScreen"))
+      .put("onAdLoaded", MapBuilder.of("registrationName", "onAdLoaded"))
+      .put("onAdFailedToLoad", MapBuilder.of("registrationName", "onAdFailedToLoad"))
+      .put("onAdOpened", MapBuilder.of("registrationName", "onAdOpened"))
       .put("onAdViewWillDismissScreen", MapBuilder.of("registrationName", "onAdViewWillDismissScreen"))
-      .put("onAdViewDidDismissScreen", MapBuilder.of("registrationName", "onAdViewDidDismissScreen"))
-      .put("onAdViewWillLeaveApplication", MapBuilder.of("registrationName", "onAdViewWillLeaveApplication"))
-      .put("onDidReceiveAppEvent", MapBuilder.of("registrationName", "onDidReceiveAppEvent"))
+      .put("onAdClosed", MapBuilder.of("registrationName", "onAdClosed"))
+      .put("onAdLeftApplication", MapBuilder.of("registrationName", "onAdLeftApplication"))
+      .put("onAppEvent", MapBuilder.of("registrationName", "onAppEvent"))
       .build();
   }
 

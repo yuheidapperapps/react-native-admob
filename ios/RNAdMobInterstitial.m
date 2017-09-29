@@ -25,11 +25,11 @@ RCT_EXPORT_MODULE();
 - (NSArray<NSString *> *)supportedEvents
 {
   return @[
-           @"interstitialDidLoad",
-           @"interstitialDidFailToLoad",
-           @"interstitialDidOpen",
-           @"interstitialDidClose",
-           @"interstitialWillLeaveApplication"];
+           @"adLoaded",
+           @"adFailedToLoad",
+           @"adOpened",
+           @"adClosed",
+           @"adLeftApplication"];
 }
 
 #pragma mark exported methods
@@ -101,7 +101,7 @@ RCT_EXPORT_METHOD(isReady:(RCTResponseSenderBlock)callback)
 
 - (void)interstitialDidReceiveAd:(__unused GADInterstitial *)ad {
   if (hasListeners) {
-    [self sendEventWithName:@"interstitialDidLoad" body:nil];
+    [self sendEventWithName:@"adLoaded" body:nil];
   }
   _requestAdResolve(nil);
 }
@@ -109,26 +109,26 @@ RCT_EXPORT_METHOD(isReady:(RCTResponseSenderBlock)callback)
 - (void)interstitial:(__unused GADInterstitial *)interstitial didFailToReceiveAdWithError:(GADRequestError *)error {
   if (hasListeners) {
     NSDictionary *jsError = RCTJSErrorFromCodeMessageAndNSError(@"E_AD_REQUEST_FAILED", error.localizedDescription, error);
-    [self sendEventWithName:@"interstitialDidFailToLoad" body:jsError];
+    [self sendEventWithName:@"adFailedToLoad" body:jsError];
   }
   _requestAdReject(@"E_AD_REQUEST_FAILED", error.localizedDescription, error);
 }
 
 - (void)interstitialWillPresentScreen:(__unused GADInterstitial *)ad {
   if (hasListeners){
-    [self sendEventWithName:@"interstitialDidOpen" body:nil];
+    [self sendEventWithName:@"adOpened" body:nil];
   }
 }
 
 - (void)interstitialDidDismissScreen:(__unused GADInterstitial *)ad {
   if (hasListeners) {
-    [self sendEventWithName:@"interstitialDidClose" body:nil];
+    [self sendEventWithName:@"adClosed" body:nil];
   }
 }
 
 - (void)interstitialWillLeaveApplication:(__unused GADInterstitial *)ad {
   if (hasListeners) {
-    [self sendEventWithName:@"interstitialWillLeaveApplication" body:nil];
+    [self sendEventWithName:@"adLeftApplication" body:nil];
   }
 }
 
