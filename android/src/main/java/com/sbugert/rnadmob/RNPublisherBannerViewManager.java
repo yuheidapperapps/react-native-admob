@@ -1,6 +1,7 @@
 package com.sbugert.rnadmob;
 
 import android.content.Context;
+import android.location.Location;
 import android.support.annotation.Nullable;
 import android.view.View;
 
@@ -9,6 +10,8 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableNativeArray;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableNativeMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.PixelUtil;
 import com.facebook.react.uimanager.ViewGroupManager;
@@ -22,7 +25,10 @@ import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +40,7 @@ class ReactPublisherAdView extends ReactViewGroup implements AppEventListener {
     AdSize[] validAdSizes;
     String adUnitID;
     AdSize adSize;
+    HashMap<String, Object> targeting;
 
     public ReactPublisherAdView(final Context context) {
         super(context);
@@ -155,6 +162,70 @@ class ReactPublisherAdView extends ReactViewGroup implements AppEventListener {
                 adRequestBuilder.addTestDevice(testDevice);
             }
         }
+        if (targeting != null) {
+            HashMap<String, Object> customTargeting = (HashMap<String, Object>)targeting.get("customTargeting");
+            if (customTargeting != null) {
+                for (String key : customTargeting.keySet()) {
+                    Object value = customTargeting.get(key);
+                    if (value instanceof ArrayList) {
+                        adRequestBuilder.addCustomTargeting(key, (ArrayList<String>) value);
+                    } else if (value instanceof String) {
+                        adRequestBuilder.addCustomTargeting(key, (String) value);
+                    }
+                }
+            }
+            ArrayList<String> categoryExclusions = (ArrayList<String>) targeting.get("categoryExclusions");
+            if (categoryExclusions != null) {
+                for (String value : categoryExclusions) {
+                    adRequestBuilder.addCategoryExclusion(value);
+                }
+            }
+            ArrayList<String> keywords = (ArrayList<String>) targeting.get("keywords");
+            if (keywords != null) {
+                for (String value : keywords) {
+                    adRequestBuilder.addKeyword(value);
+                }
+            }
+            String gender = (String) targeting.get("gender");
+            if (gender != null) {
+                if (gender.equalsIgnoreCase("male")) {
+                    adRequestBuilder.setGender(PublisherAdRequest.GENDER_MALE);
+                } else if (gender.equalsIgnoreCase("female")) {
+                    adRequestBuilder.setGender(PublisherAdRequest.GENDER_FEMALE);
+                }
+            }
+            String birthday = (String) targeting.get("birthday");
+            if (birthday != null) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                try {
+                    Date date = formatter.parse(birthday);
+                    adRequestBuilder.setBirthday(date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+            Boolean childDirectedTreatment = (Boolean)targeting.get("childDirectedTreatment");
+            if (childDirectedTreatment != null) {
+                adRequestBuilder.tagForChildDirectedTreatment(childDirectedTreatment);
+            }
+            String contentURL = (String)targeting.get("contentURL");
+            if (contentURL != null) {
+                adRequestBuilder.setContentUrl(contentURL);
+            }
+            String publisherProvidedID = (String)targeting.get("publisherProvidedID");
+            if (publisherProvidedID != null) {
+                adRequestBuilder.setContentUrl(publisherProvidedID);
+            }
+            HashMap<String, Object> location = (HashMap<String, Object>)targeting.get("location");
+            if (location != null) {
+                Location loc = new Location("");
+                Double latitude = (Double)location.get("latitude");
+                Double longitude = (Double)location.get("longitude");
+                loc.setLatitude(latitude);
+                loc.setLongitude(longitude);
+                adRequestBuilder.setLocation(loc);
+            }
+        }
         PublisherAdRequest adRequest = adRequestBuilder.build();
         this.adView.loadAd(adRequest);
     }
@@ -198,6 +269,7 @@ public class RNPublisherBannerViewManager extends ViewGroupManager<ReactPublishe
     public static final String PROP_VALID_AD_SIZES = "validAdSizes";
     public static final String PROP_AD_UNIT_ID = "adUnitID";
     public static final String PROP_TEST_DEVICES = "testDevices";
+    public static final String PROP_TARGETING = "targeting";
 
     public static final String EVENT_SIZE_CHANGE = "onSizeChange";
     public static final String EVENT_AD_LOADED = "onAdLoaded";
@@ -274,6 +346,13 @@ public class RNPublisherBannerViewManager extends ViewGroupManager<ReactPublishe
         ReadableNativeArray nativeArray = (ReadableNativeArray)testDevices;
         ArrayList<Object> list = nativeArray.toArrayList();
         view.setTestDevices(list.toArray(new String[list.size()]));
+    }
+
+    @ReactProp(name = PROP_TARGETING)
+    public void setPropTargeting(final ReactPublisherAdView view, final ReadableMap targeting) {
+        ReadableNativeMap nativeMap = (ReadableNativeMap)targeting;
+        HashMap<String, Object> map = nativeMap.toHashMap();
+        view.targeting = map;
     }
 
     private AdSize getAdSizeFromString(String adSize) {
