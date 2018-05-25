@@ -293,6 +293,14 @@ public class RNPublisherBannerViewManager extends ViewGroupManager<ReactPublishe
     }
 
     @Override
+    public void onDropViewInstance(ReactPublisherAdView view) {
+        view.adView.setAppEventListener(null);
+        view.adView.setAdListener(null);
+        view.adView.destroy();
+        super.onDropViewInstance(view);
+    }
+
+    @Override
     public void addView(ReactPublisherAdView parent, View child, int index) {
         throw new RuntimeException("RNPublisherBannerView cannot have subviews");
     }
